@@ -258,6 +258,9 @@ dtbo-$(CONFIG_CPU_RK3576) += \
 	rk3576-lubancat-3io-rs485-2-overlay.dtbo
 
 dtbo-$(CONFIG_CPU_RK3588) += \
+	rk3588s-lubancat-4-cam0-imx287m-overlay.dtbo \
+	rk3588s-lubancat-4-cam1-imx287m-overlay.dtbo \
+	rk3588s-lubancat-4-cam0-cam1-imx287m-overlay.dtbo \
 	rk3588-lubancat-i2c2-m0-overlay.dtbo \
 	rk3588-lubancat-i2c2-m4-overlay.dtbo \
 	rk3588-lubancat-i2c3-m0-overlay.dtbo \

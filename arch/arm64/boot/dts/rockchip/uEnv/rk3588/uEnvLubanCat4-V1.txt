@@ -59,7 +59,11 @@ dtoverlay=/dtb/overlay/rk3588s-lubancat-dp0-vp1-overlay.dtbo
 #dtoverlay=/dtb/overlay/rk3588s-lubancat-4-v1-dsi1-vp3-generic-overlay.dtbo
 #dtoverlay=/dtb/overlay/rk3588s-lubancat-dsi1-vp3-virtual-screen-overlay.dtbo
 
+# CAM0 + CAM1: VEYE MV-MIPI-IMX287M (use this OR individual overlays)
+dtoverlay=/dtb/overlay/rk3588s-lubancat-4-cam0-cam1-imx287m-overlay.dtbo
+
 # CAM0
+#dtoverlay=/dtb/overlay/rk3588s-lubancat-4-cam0-imx287m-overlay.dtbo
 #dtoverlay=/dtb/overlay/rk3588s-lubancat-4-cam0-imx415-3840x2160-30fps-overlay.dtbo
 #dtoverlay=/dtb/overlay/rk3588s-lubancat-4-cam0-imx415-1920x1080-60fps-overlay.dtbo
 #dtoverlay=/dtb/overlay/rk3588s-lubancat-4-cam0-ov8858-3264x2448-15fps-overlay.dtbo
@@ -68,6 +72,7 @@ dtoverlay=/dtb/overlay/rk3588s-lubancat-dp0-vp1-overlay.dtbo
 #dtoverlay=/dtb/overlay/rk3588s-lubancat-4-cam0-gc2053-1920x1080-30fps-overlay.dtbo
 #dtoverlay=/dtb/overlay/rk3588s-lubancat-4-cam0-gc4653-2560x1440-30fps-overlay.dtbo
 # CAM1
+#dtoverlay=/dtb/overlay/rk3588s-lubancat-4-cam1-imx287m-overlay.dtbo
 #dtoverlay=/dtb/overlay/rk3588s-lubancat-4-cam1-imx415-3840x2160-30fps-overlay.dtbo
 #dtoverlay=/dtb/overlay/rk3588s-lubancat-4-cam1-imx415-1920x1080-60fps-overlay.dtbo
 #dtoverlay=/dtb/overlay/rk3588s-lubancat-4-cam1-ov8858-3264x2448-15fps-overlay.dtbo

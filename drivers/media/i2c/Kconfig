@@ -47,6 +47,13 @@ menuconfig VIDEO_CAMERA_SENSOR
 
 if VIDEO_CAMERA_SENSOR
 
+config VIDEO_VEYEMVCAM
+	tristate "VEYE MV series MIPI camera support"
+	depends on I2C && VIDEO_DEV
+	help
+	  Support for VEYE MV/RAW camera modules, including MV-MIPI-IMX287M.
+	  The module is called veye_mvcam.
+
 config VIDEO_APTINA_PLL
 	tristate
 

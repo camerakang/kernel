@@ -1147,3 +1147,5 @@
 		};
 	};
 };
+
+#include "rk3588s-lubancat-4-mvcam.dtsi"

@@ -1,0 +1,70 @@
+// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+/* VEYE MV-MIPI-IMX287M: two independent 2-lane, monochrome CSI-2 links. */
+
+&i2c1 {
+	dcphy0_mvcam: camera@3b {
+		compatible = "veye,mvcam";
+		status = "disabled";
+		reg = <0x3b>;
+		/* Raspberry Pi adapter ENABLE; the module has its own clock. */
+		pwdn-gpios = <&gpio1 RK_PA3 GPIO_ACTIVE_HIGH>;
+		rockchip,camera-module-index = <0>;
+		rockchip,camera-module-facing = "back";
+		rockchip,camera-module-name = "MV-MIPI-IMX287M";
+		rockchip,camera-module-lens-name = "default";
+		port {
+			mvcam_dcphy0_out: endpoint {
+				remote-endpoint = <&dcphy0_in_mvcam>;
+				clock-lanes = <0>;
+				data-lanes = <1 2>;
+			};
+		};
+	};
+};
+
+&csi2_dcphy0 {
+	ports {
+		port@0 {
+			dcphy0_in_mvcam: endpoint@8 {
+				reg = <8>;
+				remote-endpoint = <&mvcam_dcphy0_out>;
+				clock-lanes = <0>;
+				data-lanes = <1 2>;
+			};
+		};
+	};
+};
+
+&i2c5 {
+	dcphy1_mvcam: camera@3b {
+		compatible = "veye,mvcam";
+		status = "disabled";
+		reg = <0x3b>;
+		/* Raspberry Pi adapter ENABLE; the module has its own clock. */
+		pwdn-gpios = <&gpio4 RK_PA5 GPIO_ACTIVE_HIGH>;
+		rockchip,camera-module-index = <1>;
+		rockchip,camera-module-facing = "back";
+		rockchip,camera-module-name = "MV-MIPI-IMX287M";
+		rockchip,camera-module-lens-name = "default";
+		port {
+			mvcam_dcphy1_out: endpoint {
+				remote-endpoint = <&dcphy1_in_mvcam>;
+				clock-lanes = <0>;
+				data-lanes = <1 2>;
+			};
+		};
+	};
+};
+
+&csi2_dcphy1 {
+	ports {
+		port@0 {
+			dcphy1_in_mvcam: endpoint@8 {
+				reg = <8>;
+				remote-endpoint = <&mvcam_dcphy1_out>;
+				clock-lanes = <0>;
+				data-lanes = <1 2>;
+			};
+		};
+	};
+};

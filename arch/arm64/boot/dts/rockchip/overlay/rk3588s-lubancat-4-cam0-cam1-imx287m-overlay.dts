@@ -1,0 +1,210 @@
+// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+/dts-v1/;
+/plugin/;
+
+/ {
+	fragment@0 {
+		target = <&rkcif>;
+		__overlay__ {
+			status = "okay";
+		};
+	};
+	fragment@1 {
+		target = <&rkcif_mmu>;
+		__overlay__ {
+			status = "okay";
+		};
+	};
+	fragment@2 {
+		target = <&i2c1>;
+		__overlay__ {
+			status = "okay";
+		};
+	};
+	fragment@3 {
+		target = <&dcphy0_mvcam>;
+		__overlay__ {
+			status = "okay";
+		};
+	};
+	fragment@4 {
+		target = <&mipi_dcphy0>;
+		__overlay__ {
+			status = "okay";
+		};
+	};
+	fragment@5 {
+		target = <&csi2_dcphy0>;
+		__overlay__ {
+			status = "okay";
+		};
+	};
+	fragment@6 {
+		target = <&mipi0_csi2>;
+		__overlay__ {
+			status = "okay";
+		};
+	};
+	fragment@7 {
+		target = <&rkcif_mipi_lvds>;
+		__overlay__ {
+			status = "okay";
+		};
+	};
+	fragment@8 {
+		target = <&rkcif_mipi_lvds_sditf>;
+		__overlay__ {
+			status = "disabled";
+		};
+	};
+	fragment@9 {
+		target = <&dcphy0_dw9714>;
+		__overlay__ {
+			status = "disabled";
+		};
+	};
+	fragment@10 {
+		target = <&dcphy0_ov5647>;
+		__overlay__ {
+			status = "disabled";
+		};
+	};
+	fragment@11 {
+		target = <&dcphy0_ov5648>;
+		__overlay__ {
+			status = "disabled";
+		};
+	};
+	fragment@12 {
+		target = <&dcphy0_ov8858>;
+		__overlay__ {
+			status = "disabled";
+		};
+	};
+	fragment@13 {
+		target = <&dcphy0_ov13850>;
+		__overlay__ {
+			status = "disabled";
+		};
+	};
+	fragment@14 {
+		target = <&dcphy0_imx415>;
+		__overlay__ {
+			status = "disabled";
+		};
+	};
+	fragment@15 {
+		target = <&dcphy0_gc08a8>;
+		__overlay__ {
+			status = "disabled";
+		};
+	};
+	fragment@16 {
+		target = <&dcphy0_gc2053>;
+		__overlay__ {
+			status = "disabled";
+		};
+	};
+	fragment@17 {
+		target = <&dcphy0_gc4653>;
+		__overlay__ {
+			status = "disabled";
+		};
+	};
+	fragment@18 {
+		target = <&i2c5>;
+		__overlay__ {
+			status = "okay";
+		};
+	};
+	fragment@19 {
+		target = <&dcphy1_mvcam>;
+		__overlay__ {
+			status = "okay";
+		};
+	};
+	fragment@20 {
+		target = <&mipi_dcphy1>;
+		__overlay__ {
+			status = "okay";
+		};
+	};
+	fragment@21 {
+		target = <&csi2_dcphy1>;
+		__overlay__ {
+			status = "okay";
+		};
+	};
+	fragment@22 {
+		target = <&mipi1_csi2>;
+		__overlay__ {
+			status = "okay";
+		};
+	};
+	fragment@23 {
+		target = <&rkcif_mipi_lvds1>;
+		__overlay__ {
+			status = "okay";
+		};
+	};
+	fragment@24 {
+		target = <&rkcif_mipi_lvds1_sditf>;
+		__overlay__ {
+			status = "disabled";
+		};
+	};
+	fragment@25 {
+		target = <&dcphy1_dw9714>;
+		__overlay__ {
+			status = "disabled";
+		};
+	};
+	fragment@26 {
+		target = <&dcphy1_ov5647>;
+		__overlay__ {
+			status = "disabled";
+		};
+	};
+	fragment@27 {
+		target = <&dcphy1_ov5648>;
+		__overlay__ {
+			status = "disabled";
+		};
+	};
+	fragment@28 {
+		target = <&dcphy1_ov8858>;
+		__overlay__ {
+			status = "disabled";
+		};
+	};
+	fragment@29 {
+		target = <&dcphy1_ov13850>;
+		__overlay__ {
+			status = "disabled";
+		};
+	};
+	fragment@30 {
+		target = <&dcphy1_imx415>;
+		__overlay__ {
+			status = "disabled";
+		};
+	};
+	fragment@31 {
+		target = <&dcphy1_gc08a8>;
+		__overlay__ {
+			status = "disabled";
+		};
+	};
+	fragment@32 {
+		target = <&dcphy1_gc2053>;
+		__overlay__ {
+			status = "disabled";
+		};
+	};
+	fragment@33 {
+		target = <&dcphy1_gc4653>;
+		__overlay__ {
+			status = "disabled";
+		};
+	};
+};
