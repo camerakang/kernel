@@ -147,15 +147,17 @@ SDK 中的工具位于 ``device/rockchip/common/data/configure-double-imx287m.py
 .. code-block:: bash
 
    sudo imx287m-trigger-pwm stop
-   sudo configure-double-imx287m --mode hardware --fps 30 --exposure-us 1000 --edge rising
+   sudo configure-double-imx287m --mode hardware --fps 60 --exposure-us 1000 --edge rising
    # 按配置工具打印的真实视频节点，在两个终端分别启动采集。
    sudo imx287m-trigger-pwm start --fps 30 --pulse-us 100
    # 结束采集或重新配置前关闭脉冲。
    sudo imx287m-trigger-pwm stop
 
 这里 100 us 是触发脉冲宽度，1000 us 是相机曝光时间，两者独立。
-工具默认 30 Hz，初次调试允许 1--100 Hz；更高帧率需结合相机时序和
-采集链路实测。配置工具的 ``--fps`` 应与目标触发频率相匹配。
+PWM 工具默认 30 Hz，初次调试允许 1--100 Hz；更高帧率需结合相机时序和
+采集链路实测。配置工具的 ``--fps`` 设置相机内部时序，需为外触发预留余量。
+本机相机固件 ``0x1440207`` 实测：内部 30 fps / 外触发 30 Hz 时输出
+15 fps；内部 60 fps / 外触发 30 Hz 时两路均稳定输出 30 fps。
 
 软件依次调用两次 soft_trgone 不能实现严格的双摄曝光同步。
 同一个硬件触发沿可以用于曝光同步；两路 V4L2 buffer 时间戳是接收时刻，
@@ -173,4 +175,7 @@ SDK 中的工具位于 ``device/rockchip/common/data/configure-double-imx287m.py
 * https://wiki.veye.cc/index.php/MV_Camera_Application_Development_Guide_on_Rochchip/zh
 
 本次验证包含驱动编译、基础 DTB/插件编译、双摄及独立插件的离线应用检查。
-板卡尚未连接进行实机测试；不能据此认定已经出图或已满足同步精度要求。
+2026-10-04 在 LubanCat-4 V1 上完成实机验证：自由运行两路各采集 60 帧，
+30 fps；共同硬件触发、内部 60 fps / PWM 30 Hz 时，两路各采集 120 帧，
+帧序号连续，帧间隔平均 33.3334 ms。触发前两路均无帧。配对帧 EOF 接收
+时间戳相差 2--9 us；这不是曝光同步精度，精确曝光同步仍需测量 Strobe。
