@@ -154,7 +154,7 @@ SDK 中的工具位于 ``device/rockchip/common/data/configure-double-imx287m.py
    sudo imx287m-trigger-pwm stop
 
 这里 100 us 是触发脉冲宽度，1000 us 是相机曝光时间，两者独立。
-PWM 工具默认 30 Hz，初次调试允许 1--100 Hz；更高帧率需结合相机时序和
+PWM 工具默认 30 Hz，允许 1--530 Hz（支持小数）；实际帧率需结合相机位深和
 采集链路实测。配置工具的 ``--fps`` 设置相机内部时序，需为外触发预留余量。
 本机相机固件 ``0x1440207`` 实测：内部 30 fps / 外触发 30 Hz 时输出
 15 fps；内部 60 fps / 外触发 30 Hz 时两路均稳定输出 30 fps。
@@ -179,3 +179,34 @@ PWM 工具默认 30 Hz，初次调试允许 1--100 Hz；更高帧率需结合相
 30 fps；共同硬件触发、内部 60 fps / PWM 30 Hz 时，两路各采集 120 帧，
 帧序号连续，帧间隔平均 33.3334 ms。触发前两路均无帧。配对帧 EOF 接收
 时间戳相差 2--9 us；这不是曝光同步精度，精确曝光同步仍需测量 Strobe。
+
+RAW12 与接近 320 fps 的双摄同步
+--------------------------------
+
+配置工具支持 ``--format raw8/raw10/raw12``，默认仍为 raw8。
+RAW12 使用 ``Y12_1X12`` mbus code 和含尾部空格的 ``Y12 `` FourCC。
+无需更换当前内核；原驱动支持 Mono12。
+
+2026-10-04 在本机固件 ``0x1440207`` 上实测：
+
+* 720x544 RAW12，自由运行请求 320 fps：两路各 640 帧，实际约 319.43 fps。
+* RAW12 普通硬触发，内部请求 320 fps / PWM 320 Hz：实际约 160 fps。
+* RAW12 普通硬触发，内部请求 320 fps / PWM 319.4 Hz：两路各 1600 帧，
+  实际约 319.41 fps，帧序号连续；运行中两颗相机的触发丢失计数为 0。
+* 相机读取的 RAW12 最大和当前内部帧率均为 319.96 fps。
+  上限附近必须以实测为准，不能要求严格 320 Hz 脉冲时仍接收每一个脉冲。
+
+.. code-block:: bash
+
+   sudo imx287m-trigger-pwm stop
+   sudo configure-double-imx287m --mode hardware --format raw12 --fps 320 --exposure-us 1000 --edge rising
+   # 在两个终端分别执行配置工具打印的采集命令。
+   sudo imx287m-trigger-pwm start --fps 319.4 --pulse-us 100
+   # 结束采集前停止脉冲。
+   sudo imx287m-trigger-pwm stop
+
+CIF 默认保存 compact RAW12，而不是每像素 16 bit 的普通 Y12 文件。
+720 像素对应有效 1080 字节，加上行对齐后的 stride 为 1280 字节，
+每帧 696320 字节。读取像素时必须按 compact RAW12 解包并去除行填充。
+上述高速帧率测试输出到 ``/dev/null``，验证的是双路采集和共同触发，
+未验证持续写入 eMMC 或网络传输的速率；两路带行填充的数据流约 445 MB/s。
