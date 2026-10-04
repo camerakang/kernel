@@ -36,12 +36,17 @@ ENABLE 为高有效。必须确认实际转接板将主板 PWDN 接到模组 ENA
 若转接板具有反相电路，需调整 GPIO 极性。
 模组需要 5 V 供电、3.3 V I2C 与触发电平。
 不要把模组供电接在仅提供 3.3 V 的树莓派接口供电引脚上。
-例如 ADP-MV1-V2 的 5 V 电源需要另行接入，其供电方式应按实际转接板确认。
+原版 ADP-MV1 的 J1 为 15 pin，其第 15 针为 NC，不提供相机电源。
+每块 ADP-MV1 的 J3-1 接 5 V，J3-2 接 GND；使用 J1 的 I2C 时，
+每块板各自短接 J3 的 11--13（SDA）和 12--14（SCL）。
+LubanCat4 的 J9 物理第 2、4 针为 5 V，第 6 针为 GND。
 
 外同步需要额外的物理连接：同一个信号源连接两颗摄像头的 TrigIN，
-并将信号源与两颗摄像头共地。具体连接器针脚应按实际 VEYE 转接板
-型号确认，不能从主板 CAM_PWDN / CAM_RST 引脚推断。
-未确认信号源与接线前，本配置不占用任何主板 GPIO 作为触发输出。
+并将信号源与两颗摄像头共地。原版 ADP-MV1 的输入是 J3-3。
+本分支启用 PWM14_M2，将 LubanCat4 J9 物理第 12 针作为共用触发输出，
+连接到两块 ADP-MV1 的 J3-3。触发信号为 0--3.3 V 脉冲，不能用固定
+3.3 V 电源代替，不能直接输入 5 V、12 V 或 24 V 信号。
+PWM 不自动启动；使用下面的工具在两路采集开始后手动启用。
 
 独立采集链路为：
 
@@ -128,6 +133,29 @@ SDK 中的工具位于 ``device/rockchip/common/data/configure-double-imx287m.py
 ``--fps`` 设置模组的内部时序参数；实际外触发采集帧率由触发源决定。
 初次测试从 30 Hz 开始，脉冲间隔需满足实际曝光及读出时间要求。
 工具使用普通边沿触发；脉宽控制曝光的 pulse trigger 模式不在此配置范围内。
+
+板载 PWM 触发
+------------
+
+``uEnvLubanCat4.txt`` 与 ``uEnvLubanCat4-V1.txt`` 已启用
+``rk3588-lubancat-pwm14-m2-overlay.dtbo``。工具按 PWM14 控制器地址
+``febf0020`` 查找 sysfs 节点，不依赖 ``pwmchipN`` 的编号。
+将 ``device/rockchip/common/data/imx287m-trigger-pwm.py`` 安装为
+``/usr/local/bin/imx287m-trigger-pwm``，相机配置工具安装为
+``/usr/local/bin/configure-double-imx287m``，然后依次执行：
+
+.. code-block:: bash
+
+   sudo imx287m-trigger-pwm stop
+   sudo configure-double-imx287m --mode hardware --fps 30 --exposure-us 1000 --edge rising
+   # 按配置工具打印的真实视频节点，在两个终端分别启动采集。
+   sudo imx287m-trigger-pwm start --fps 30 --pulse-us 100
+   # 结束采集或重新配置前关闭脉冲。
+   sudo imx287m-trigger-pwm stop
+
+这里 100 us 是触发脉冲宽度，1000 us 是相机曝光时间，两者独立。
+工具默认 30 Hz，初次调试允许 1--100 Hz；更高帧率需结合相机时序和
+采集链路实测。配置工具的 ``--fps`` 应与目标触发频率相匹配。
 
 软件依次调用两次 soft_trgone 不能实现严格的双摄曝光同步。
 同一个硬件触发沿可以用于曝光同步；两路 V4L2 buffer 时间戳是接收时刻，

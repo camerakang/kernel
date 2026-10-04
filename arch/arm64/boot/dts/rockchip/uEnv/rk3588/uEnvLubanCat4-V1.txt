@@ -18,7 +18,8 @@ dtoverlay=/dtb/overlay/rk3588-lubancat-i2c6-m3-disable-overlay.dtbo
 #dtoverlay=/dtb/overlay/rk3588-lubancat-pwm3-ir-m3-overlay.dtbo
 #dtoverlay=/dtb/overlay/rk3588-lubancat-pwm10-m2-overlay.dtbo
 #dtoverlay=/dtb/overlay/rk3588-lubancat-pwm11-ir-m3-overlay.dtbo
-#dtoverlay=/dtb/overlay/rk3588-lubancat-pwm14-m2-overlay.dtbo
+# Shared IMX287M trigger: J9 physical pin 12; pulses are started manually
+dtoverlay=/dtb/overlay/rk3588-lubancat-pwm14-m2-overlay.dtbo
 #dtoverlay=/dtb/overlay/rk3588-lubancat-pwm15-ir-m3-overlay.dtbo
 #dtoverlay=/dtb/overlay/rk3588-lubancat-spi0-m2-overlay.dtbo
 #dtoverlay=/dtb/overlay/rk3588-lubancat-spi1-m1-gpio-cs-overlay.dtbo
