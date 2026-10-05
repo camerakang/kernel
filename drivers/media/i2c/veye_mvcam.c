@@ -597,7 +597,7 @@ static int mvcam_csi2_enum_mbus_code(
         struct mvcam_format *supported_formats = mvcam->supported_formats;
         int num_supported_formats = mvcam->num_supported_formats;
     VEYE_TRACE
-        if (code->index != 0)
+        if (code->pad != 0)
                         return -EINVAL;
 
     if (code->index >= num_supported_formats)
