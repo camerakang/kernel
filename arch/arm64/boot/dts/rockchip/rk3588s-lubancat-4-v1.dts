@@ -7,10 +7,17 @@
 /dts-v1/;
 
 #include "rk3588s-lubancat-4.dts"
+/* U-Boot needs HDMI before boot.scr applies the optional overlays. */
+#include "rk3588s-lubancat-4-hdmi0-vp0.dtsi"
 
 / {
 	model = "Embedfire LubanCat-4 V1";
 	compatible = "embedfire,rk3588s-lubancat-4-v1", "rockchip,rk3588";
+};
+
+&route_hdmi0 {
+	/* Rotate the supplied portrait artwork 90 degrees counterclockwise. */
+	logo,rotation = <270>;
 };
 
 &pinctrl{
